@@ -1,21 +1,20 @@
-# SPDX-License-Identifier: GPL-2.0-only
-#
 # Copyright (C) 2015 OpenWrt.org
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
 #
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nftables
-PKG_VERSION:=1.0.6
+PKG_VERSION:=1.0.0
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://netfilter.org/projects/$(PKG_NAME)/files
-PKG_HASH:=2407430ddd82987670e48dc2fda9e280baa8307abec04ab18d609df3db005e4c
-
+PKG_HASH:=58bf547daf967a2b88ecb4f425f126006ebde22711db806b25c1d6cf84fe45f4
 PKG_MAINTAINER:=
 PKG_LICENSE:=GPL-2.0
-PKG_LICENSE_FILES:=COPYING
 
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
@@ -46,7 +45,6 @@ define Package/nftables-nojson
   TITLE+= no JSON support
   VARIANT:=nojson
   DEFAULT_VARIANT:=1
-  CONFLICTS:=nftables-json
 endef
 
 define Package/nftables-json
@@ -62,15 +60,6 @@ endif
 
 TARGET_CFLAGS += -flto
 TARGET_LDFLAGS += -flto
-
-define Build/InstallDev
-	$(INSTALL_DIR) $(1)/usr/lib $(1)/usr/include
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so* $(1)/usr/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/include/nftables $(1)/usr/include/
-	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libnftables.pc \
-		$(1)/usr/lib/pkgconfig/
-endef
 
 define Package/nftables/install/Default
 	$(INSTALL_DIR) $(1)/usr/sbin
